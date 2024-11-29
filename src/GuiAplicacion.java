@@ -6,7 +6,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.URI;
-import java.util.List;
 
 public class GuiAplicacion {
 
@@ -68,7 +67,7 @@ public class GuiAplicacion {
         gbc.gridwidth = 1;
         panelPrincipal.add(rbTamaño, gbc);
 
-        JRadioButton rbFecha = new JRadioButton("Fecha de Creación");
+        JRadioButton rbFecha = new JRadioButton("Fecha de Modificación");
         rbFecha.setFont(fuenteGeneral);
         gbc.gridx = 3;
         gbc.gridy = 2;
@@ -86,15 +85,15 @@ public class GuiAplicacion {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String directorio = textDirectorio.getText();
-                if (directorio.isEmpty()) {
+                if (directorio.isEmpty()) { // Si el directorio está vacío
                     JOptionPane.showMessageDialog(frame, "Por favor, ingrese un directorio.", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
                     File dir = new File(directorio);
-                    if (!dir.exists() || !dir.isDirectory()) {
+                    if (!dir.exists() || !dir.isDirectory()) { // Si el directorio no existe o no es un directorio
                         JOptionPane.showMessageDialog(frame, "El directorio ingresado no es válido.", "Error",
                                 JOptionPane.ERROR_MESSAGE);
-                    } else {
+                    } else { // Si el directorio es válido
                         String filtro = rbTipo.isSelected() ? "tipo" : rbTamaño.isSelected() ? "tamaño" : "fecha";
                         new GuiClasificar(directorio, filtro).actionPerformed(e);
                     }
@@ -112,22 +111,22 @@ public class GuiAplicacion {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String directorio = textDirectorio.getText();
-                if (directorio.isEmpty()) {
+                if (directorio.isEmpty()) { // Si el directorio está vacío
                     JOptionPane.showMessageDialog(frame, "Por favor, ingrese un directorio.", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
                     File dir = new File(directorio);
-                    if (!dir.exists() || !dir.isDirectory()) {
+                    if (!dir.exists() || !dir.isDirectory()) { // Si el directorio no existe o no es un directorio
                         JOptionPane.showMessageDialog(frame, "El directorio ingresado no es válido.", "Error",
                                 JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        Clasificador clasificador = new Clasificador();
-                        List<File> archivosMovidos = clasificador.getArchivosMovidos();
-                        if (archivosMovidos.isEmpty()) {
-                            JOptionPane.showMessageDialog(frame, "No hay archivos para deshacer la clasificación.",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
+                    } else { // Si el directorio es válido
+                        File logFile = new File(directorio + File.separator + "Movimientos_realizados.txt");
+                        if (!logFile.exists()) {
+                            JOptionPane.showMessageDialog(frame,
+                                    "No se encontró el archivo de log. No se puede deshacer la clasificación.", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
                         } else {
-                            new GuiDeshacer(directorio, archivosMovidos).actionPerformed(e);
+                            new GuiDeshacer(directorio).actionPerformed(e);
                         }
                     }
                 }
@@ -145,7 +144,7 @@ public class GuiAplicacion {
         labelCreditos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                try {
+                try { // Abrir enlace en el navegador
                     Desktop.getDesktop().browse(new URI("https://github.com/LukaLattanzi"));
                 } catch (Exception ex) {
                     ex.printStackTrace();

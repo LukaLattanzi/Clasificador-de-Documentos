@@ -46,7 +46,7 @@ public class GuiAyuda implements ActionListener {
         labelInstDosB.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelInstDosB);
 
-        JLabel labelInstDosC = new JLabel("- Fecha: Agrupa por mes y año de modificación.");
+        JLabel labelInstDosC = new JLabel("- Fecha: Agrupa por fecha de modificación con el formato yyyy-MM");
         labelInstDosC.setFont(fuenteGeneral);
         labelInstDosC.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelInstDosC);

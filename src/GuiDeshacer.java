@@ -2,17 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class GuiDeshacer implements ActionListener {
 
     private String directorio;
-    private List<File> archivosMovidos;
 
-    public GuiDeshacer(String directorio, List<File> archivosMovidos) {
+    public GuiDeshacer(String directorio) {
         this.directorio = directorio;
-        this.archivosMovidos = archivosMovidos;
     }
 
     @Override
@@ -60,9 +61,26 @@ public class GuiDeshacer implements ActionListener {
         btnConfirmar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DeshacerClasificacion deshacerClasificacion = new DeshacerClasificacion(archivosMovidos);
-                deshacerClasificacion.deshacer(directorio);
-                deshacerFrame.dispose();
+                File logFile = new File(directorio + File.separator + "Movimientos_realizados.txt");
+                if (!logFile.exists()) { // Si no existe el archivo de log
+                    JOptionPane.showMessageDialog(deshacerFrame,
+                            "No se encontró el archivo con los movimientos realizados. No se puede deshacer la clasificación.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                } else { // Si existe el archivo de log
+                    try {
+                        List<String> logMovimientos = new ArrayList<>();
+                        Scanner scanner = new Scanner(logFile);
+                        while (scanner.hasNextLine()) {
+                            logMovimientos.add(scanner.nextLine());
+                        }
+                        scanner.close();
+                        DeshacerClasificacion deshacerClasificacion = new DeshacerClasificacion(logMovimientos);
+                        deshacerClasificacion.deshacer(directorio);
+                        deshacerFrame.dispose();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
         });
         panelBoton.add(btnConfirmar);

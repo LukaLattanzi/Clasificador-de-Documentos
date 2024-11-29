@@ -7,25 +7,43 @@ import java.util.List;
 
 public class DeshacerClasificacion {
 
-    private List<File> archivosMovidos;
+    private List<String> logMovimientos;
 
-    public DeshacerClasificacion(List<File> archivosMovidos) {
-        this.archivosMovidos = archivosMovidos;
+    public DeshacerClasificacion(List<String> logMovimientos) {
+        this.logMovimientos = logMovimientos;
     }
 
     public void deshacer(String directorio) {
-        if (archivosMovidos == null || archivosMovidos.isEmpty()) {
-            System.out.println("No hay archivos para deshacer la clasificación.");
+        if (logMovimientos == null || logMovimientos.isEmpty()) {
+            System.out.println("No hay movimientos para deshacer.");
             return;
         }
 
-        for (File archivo : archivosMovidos) {
-            try {
-                Path destinoOriginal = Path.of(directorio, archivo.getName());
-                Files.move(archivo.toPath(), destinoOriginal, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                e.printStackTrace();
+        File dir = new File(directorio);
+        File[] subdirectorios = dir.listFiles(File::isDirectory);
+        if (subdirectorios == null || subdirectorios.length == 0) {
+            System.out.println("No hay subdirectorios para deshacer la clasificación.");
+            return;
+        }
+
+        for (File subdirectorio : subdirectorios) {
+            File[] archivos = subdirectorio.listFiles(File::isFile);
+            if (archivos != null) {
+                for (File archivo : archivos) {
+                    Path destinoOriginal = Path.of(directorio, archivo.getName());
+                    try {
+                        Files.move(archivo.toPath(), destinoOriginal, StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
+            subdirectorio.delete();
+        }
+
+        File logFile = new File(directorio + File.separator + "Movimientos_realizados.txt");
+        if (logFile.exists()) {
+            logFile.delete();
         }
 
         System.out.println("Clasificación deshecha.");

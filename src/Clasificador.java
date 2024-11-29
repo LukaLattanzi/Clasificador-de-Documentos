@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class Clasificador {
 
-    private List<File> archivosMovidos = new ArrayList<>();
+    private List<String> logMovimientos = new ArrayList<>();
 
     public void clasificar(String directorio, String filtro) {
 
@@ -41,7 +42,9 @@ public class Clasificador {
                     }
                 }
             }
+            guardarLog(directorio);
         });
+
         clasificadorThread.start();
     }
 
@@ -53,18 +56,24 @@ public class Clasificador {
         }
         Files.move(archivo.toPath(), Path.of(destino.getPath(), archivo.getName()),
                 StandardCopyOption.REPLACE_EXISTING);
-        archivosMovidos.add(new File(destino.getPath(), archivo.getName()));
+        logMovimientos.add(archivo.getName() + " -> " + destino.getPath());
     }
 
     private void clasificarPorTamaño(File archivo, String directorio) throws IOException {
         long tamaño = archivo.length();
         String tamañoCategoria;
-        if (tamaño < 1024) {
-            tamañoCategoria = "Pequeño";
-        } else if (tamaño < 1048576) {
-            tamañoCategoria = "Mediano";
-        } else {
-            tamañoCategoria = "Grande";
+        if (tamaño < 1024 * 1024) { // < 1MB
+            tamañoCategoria = "Menos de 1MB";
+        } else if (tamaño < 10 * 1024 * 1024) { // 1-10MB
+            tamañoCategoria = "1-10MB";
+        } else if (tamaño < 100 * 1024 * 1024) { // 11-100MB
+            tamañoCategoria = "11-100MB";
+        } else if (tamaño < 500 * 1024 * 1024) { // 101-500MB
+            tamañoCategoria = "101-500MB";
+        } else if (tamaño < 1000 * 1024 * 1024) { // 501-1000MB
+            tamañoCategoria = "501-1000MB";
+        } else { // > 1000MB
+            tamañoCategoria = "Más de 1000MB";
         }
         File destino = new File(directorio + File.separator + tamañoCategoria);
         if (!destino.exists()) {
@@ -72,7 +81,7 @@ public class Clasificador {
         }
         Files.move(archivo.toPath(), Path.of(destino.getPath(), archivo.getName()),
                 StandardCopyOption.REPLACE_EXISTING);
-        archivosMovidos.add(new File(destino.getPath(), archivo.getName()));
+        logMovimientos.add(archivo.getName() + " -> " + destino.getPath());
     }
 
     private void clasificarPorFecha(File archivo, String directorio) throws IOException {
@@ -86,7 +95,7 @@ public class Clasificador {
         }
         Files.move(archivo.toPath(), Path.of(destino.getPath(), archivo.getName()),
                 StandardCopyOption.REPLACE_EXISTING);
-        archivosMovidos.add(new File(destino.getPath(), archivo.getName()));
+        logMovimientos.add(archivo.getName() + " -> " + destino.getPath());
     }
 
     private String obtenerExtension(String nombreArchivo) {
@@ -97,7 +106,14 @@ public class Clasificador {
         return "sin_extension";
     }
 
-    public List<File> getArchivosMovidos() {
-        return archivosMovidos;
+    private void guardarLog(String directorio) {
+        File logFile = new File(directorio + File.separator + "Movimientos_realizados.txt");
+        try (FileWriter writer = new FileWriter(logFile)) {
+            for (String log : logMovimientos) {
+                writer.write(log + System.lineSeparator());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

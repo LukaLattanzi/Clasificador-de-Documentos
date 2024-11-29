@@ -5,6 +5,14 @@ import java.awt.event.ActionListener;
 
 public class GuiClasificar implements ActionListener {
 
+    private String directorio;
+    private String filtro;
+
+    public GuiClasificar(String directorio, String filtro) {
+        this.directorio = directorio;
+        this.filtro = filtro;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -47,6 +55,14 @@ public class GuiClasificar implements ActionListener {
 
         JButton btnConfirmar = new JButton("Confirmar");
         btnConfirmar.setFont(fuenteGeneral);
+        btnConfirmar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Clasificador clasificador = new Clasificador();
+                clasificador.clasificar(directorio, filtro);
+                clasificarFrame.dispose();
+            }
+        });
         panelBoton.add(btnConfirmar);
 
         JButton btnCancelar = new JButton("Cancelar");

@@ -1,10 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.io.File;
 import java.net.URI;
+import java.util.List;
 
 public class GuiAplicacion {
 
@@ -83,11 +85,19 @@ public class GuiAplicacion {
         btnClasificar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (textDirectorio.getText().isEmpty()) {
+                String directorio = textDirectorio.getText();
+                if (directorio.isEmpty()) {
                     JOptionPane.showMessageDialog(frame, "Por favor, ingrese un directorio.", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
-                    new GuiClasificar().actionPerformed(e);
+                    File dir = new File(directorio);
+                    if (!dir.exists() || !dir.isDirectory()) {
+                        JOptionPane.showMessageDialog(frame, "El directorio ingresado no es válido.", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        String filtro = rbTipo.isSelected() ? "tipo" : rbTamaño.isSelected() ? "tamaño" : "fecha";
+                        new GuiClasificar(directorio, filtro).actionPerformed(e);
+                    }
                 }
             }
         });
@@ -101,11 +111,25 @@ public class GuiAplicacion {
         btnDeshacer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (textDirectorio.getText().isEmpty()) {
+                String directorio = textDirectorio.getText();
+                if (directorio.isEmpty()) {
                     JOptionPane.showMessageDialog(frame, "Por favor, ingrese un directorio.", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
-                    new GuiDeshacer().actionPerformed(e);
+                    File dir = new File(directorio);
+                    if (!dir.exists() || !dir.isDirectory()) {
+                        JOptionPane.showMessageDialog(frame, "El directorio ingresado no es válido.", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        Clasificador clasificador = new Clasificador();
+                        List<File> archivosMovidos = clasificador.getArchivosMovidos();
+                        if (archivosMovidos.isEmpty()) {
+                            JOptionPane.showMessageDialog(frame, "No hay archivos para deshacer la clasificación.",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            new GuiDeshacer(directorio, archivosMovidos).actionPerformed(e);
+                        }
+                    }
                 }
             }
         });

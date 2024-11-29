@@ -2,16 +2,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.io.File;
 
 public class GuiDeshacer implements ActionListener {
+
+    private String directorio;
+    private List<File> archivosMovidos;
+
+    public GuiDeshacer(String directorio, List<File> archivosMovidos) {
+        this.directorio = directorio;
+        this.archivosMovidos = archivosMovidos;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        JFrame clasificarFrame = new JFrame("Deshacer - Clasificador de Documentos");
-        clasificarFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        clasificarFrame.setLayout(new BorderLayout());
-        clasificarFrame.setResizable(false);
+        JFrame deshacerFrame = new JFrame("Deshacer - Clasificador de Documentos");
+        deshacerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        deshacerFrame.setLayout(new BorderLayout());
+        deshacerFrame.setResizable(false);
 
         Font fuenteGeneral = new Font("Serif", Font.PLAIN, 14);
 
@@ -24,14 +34,13 @@ public class GuiDeshacer implements ActionListener {
         labelDeshacer.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelDeshacer);
 
-        JLabel labelLineaUno = new JLabel(
-                "Está a punto de comenzar el proceso de deshacer la clasificación de documentos.");
+        JLabel labelLineaUno = new JLabel("Está a punto de deshacer el proceso de clasificación de documentos.");
         labelLineaUno.setFont(fuenteGeneral);
         labelLineaUno.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelLineaUno);
 
         JLabel labelLineaDos = new JLabel(
-                "Si continúa, los archivos en el directorio seleccionado serán restaurados a su estado original.");
+                "Si continúa, los archivos en el directorio seleccionado serán restaurados a su ubicación original.");
         labelLineaDos.setFont(fuenteGeneral);
         labelLineaDos.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelLineaDos);
@@ -41,13 +50,21 @@ public class GuiDeshacer implements ActionListener {
         labelLineaTres.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelLineaTres);
 
-        clasificarFrame.add(panelTexto, BorderLayout.CENTER);
+        deshacerFrame.add(panelTexto, BorderLayout.CENTER);
 
         JPanel panelBoton = new JPanel();
         panelBoton.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         JButton btnConfirmar = new JButton("Confirmar");
         btnConfirmar.setFont(fuenteGeneral);
+        btnConfirmar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DeshacerClasificacion deshacerClasificacion = new DeshacerClasificacion(archivosMovidos);
+                deshacerClasificacion.deshacer(directorio);
+                deshacerFrame.dispose();
+            }
+        });
         panelBoton.add(btnConfirmar);
 
         JButton btnCancelar = new JButton("Cancelar");
@@ -55,15 +72,15 @@ public class GuiDeshacer implements ActionListener {
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clasificarFrame.dispose();
+                deshacerFrame.dispose();
             }
         });
         panelBoton.add(btnCancelar);
 
-        clasificarFrame.add(panelBoton, BorderLayout.SOUTH);
+        deshacerFrame.add(panelBoton, BorderLayout.SOUTH);
 
-        clasificarFrame.pack();
-        clasificarFrame.setLocationRelativeTo(null);
-        clasificarFrame.setVisible(true);
+        deshacerFrame.pack();
+        deshacerFrame.setLocationRelativeTo(null);
+        deshacerFrame.setVisible(true);
     }
 }

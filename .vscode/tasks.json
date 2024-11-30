@@ -1,0 +1,14 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build jar",
+            "type": "shell",
+            "command": "javac -d bin src/**/*.java && jar cfm MiPrograma.jar meta-inf/MANIFEST.MF -C bin .",
+            "group": "build",
+            "problemMatcher": [
+                "$javac"
+            ]
+        }
+    ]
+}

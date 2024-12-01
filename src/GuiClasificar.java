@@ -37,8 +37,7 @@ public class GuiClasificar implements ActionListener {
         labelLineaUno.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelLineaUno);
 
-        JLabel labelLineaDos = new JLabel(
-                "Si continúa, los archivos en el directorio seleccionado serán organizados según el filtro elegido.");
+        JLabel labelLineaDos = new JLabel("Si continúa, los archivos en el directorio seleccionado serán organizados según el filtro elegido.");
         labelLineaDos.setFont(fuenteGeneral);
         labelLineaDos.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelLineaDos);
@@ -58,7 +57,7 @@ public class GuiClasificar implements ActionListener {
         btnConfirmar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Clasificador clasificador = new Clasificador();
+                Clasificador clasificador = new Clasificador(); 
                 clasificador.clasificar(directorio, filtro);
                 clasificarFrame.dispose();
             }

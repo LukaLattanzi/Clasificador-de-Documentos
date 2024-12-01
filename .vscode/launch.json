@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "GuiAplicacion",
+      "request": "launch",
+      "mainClass": "GuiAplicacion",
+      "projectName": "Clasificador-de-Documentos_d48bf0bb"
+    },
+    {
+      "type": "java",
       "name": "Launch Clasificador de Documentos",
       "request": "launch",
       "mainClass": "GuiAplicacion",

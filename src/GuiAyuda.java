@@ -24,8 +24,7 @@ public class GuiAyuda implements ActionListener {
         labelInstrucciones.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelInstrucciones);
 
-        JLabel labelInstUno = new JLabel(
-                "1. Selecciona un directorio: Ingresa un directorio válido donde se organizarán los archivos.");
+        JLabel labelInstUno = new JLabel("1. Selecciona un directorio: Ingresa un directorio válido donde se organizarán los archivos.");
         labelInstUno.setFont(fuenteGeneral);
         labelInstUno.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelInstUno);
@@ -40,8 +39,7 @@ public class GuiAyuda implements ActionListener {
         labelInstDosA.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelInstDosA);
 
-        JLabel labelInstDosB = new JLabel(
-                "- Tamaño: Clasifica en: < 1MB, 1-10MB, 11-100MB, 101-500MB, 501-1000MB, > 1000MB.");
+        JLabel labelInstDosB = new JLabel("- Tamaño: Clasifica en: < 1MB, 1-10MB, 11-100MB, 101-500MB, 501-1000MB, > 1000MB.");
         labelInstDosB.setFont(fuenteGeneral);
         labelInstDosB.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelInstDosB);
@@ -51,8 +49,7 @@ public class GuiAyuda implements ActionListener {
         labelInstDosC.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelInstDosC);
 
-        JLabel labelInstTres = new JLabel(
-                "3. Clasificar: Presiona 'Clasificar' para organizar los archivos en carpetas.");
+        JLabel labelInstTres = new JLabel("3. Clasificar: Presiona 'Clasificar' para organizar los archivos en carpetas.");
         labelInstTres.setFont(fuenteGeneral);
         labelInstTres.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelInstTres);
@@ -62,8 +59,7 @@ public class GuiAyuda implements ActionListener {
         labelInstCuatro.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelInstCuatro);
 
-        JLabel labelNota = new JLabel(
-                "Nota: El filtro de clasificación viene preseleccionado por tipo de archivo de manera predeterminada.");
+        JLabel labelNota = new JLabel("Nota: El filtro de clasificación viene preseleccionado por tipo de archivo de manera predeterminada.");
         labelNota.setFont(fuenteGeneral);
         labelNota.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelNota);

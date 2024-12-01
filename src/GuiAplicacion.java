@@ -84,18 +84,16 @@ public class GuiAplicacion {
         btnClasificar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String directorio = textDirectorio.getText();
+                String directorio = textDirectorio.getText(); // Obtener directorio ingresado
                 if (directorio.isEmpty()) { // Si el directorio está vacío
-                    JOptionPane.showMessageDialog(frame, "Por favor, ingrese un directorio.", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Por favor, ingrese un directorio.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    File dir = new File(directorio);
+                    File dir = new File(directorio); // Crear objeto File con el directorio ingresado
                     if (!dir.exists() || !dir.isDirectory()) { // Si el directorio no existe o no es un directorio
-                        JOptionPane.showMessageDialog(frame, "El directorio ingresado no es válido.", "Error",
-                                JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "El directorio ingresado no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
                     } else { // Si el directorio es válido
-                        String filtro = rbTipo.isSelected() ? "tipo" : rbTamaño.isSelected() ? "tamaño" : "fecha";
-                        new GuiClasificar(directorio, filtro).actionPerformed(e);
+                        String filtro = rbTipo.isSelected() ? "tipo" : rbTamaño.isSelected() ? "tamaño" : "fecha"; // Obtener filtro seleccionado
+                        new GuiClasificar(directorio, filtro).actionPerformed(e); // Llamar a la clase GuiClasificar
                     }
                 }
             }
@@ -110,23 +108,19 @@ public class GuiAplicacion {
         btnDeshacer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String directorio = textDirectorio.getText();
+                String directorio = textDirectorio.getText(); // Obtener directorio ingresado
                 if (directorio.isEmpty()) { // Si el directorio está vacío
-                    JOptionPane.showMessageDialog(frame, "Por favor, ingrese un directorio.", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Por favor, ingrese un directorio.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    File dir = new File(directorio);
+                    File dir = new File(directorio); // Crear objeto File con el directorio ingresado
                     if (!dir.exists() || !dir.isDirectory()) { // Si el directorio no existe o no es un directorio
-                        JOptionPane.showMessageDialog(frame, "El directorio ingresado no es válido.", "Error",
-                                JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "El directorio ingresado no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
                     } else { // Si el directorio es válido
-                        File logFile = new File(directorio + File.separator + "Movimientos_realizados.txt");
-                        if (!logFile.exists()) {
-                            JOptionPane.showMessageDialog(frame,
-                                    "No se encontró el archivo de log. No se puede deshacer la clasificación.", "Error",
-                                    JOptionPane.ERROR_MESSAGE);
-                        } else {
-                            new GuiDeshacer(directorio).actionPerformed(e);
+                        File logFile = new File(directorio + File.separator + "Movimientos_realizados.txt"); // Crear objeto File con el archivo de log
+                        if (!logFile.exists()) { // Si el archivo de log no existe
+                            JOptionPane.showMessageDialog(frame, "No se encontró el archivo de log. No se puede deshacer la clasificación.", "Error", JOptionPane.ERROR_MESSAGE);
+                        } else { // Si el archivo de log existe
+                            new GuiDeshacer(directorio).actionPerformed(e); // Llamar a la clase GuiDeshacer
                         }
                     }
                 }

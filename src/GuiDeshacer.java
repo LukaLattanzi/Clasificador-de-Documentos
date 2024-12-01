@@ -40,8 +40,7 @@ public class GuiDeshacer implements ActionListener {
         labelLineaUno.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelLineaUno);
 
-        JLabel labelLineaDos = new JLabel(
-                "Si continúa, los archivos en el directorio seleccionado serán restaurados a su ubicación original.");
+        JLabel labelLineaDos = new JLabel("Si continúa, los archivos en el directorio seleccionado serán restaurados a su ubicación original.");
         labelLineaDos.setFont(fuenteGeneral);
         labelLineaDos.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelTexto.add(labelLineaDos);
@@ -63,15 +62,13 @@ public class GuiDeshacer implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 File logFile = new File(directorio + File.separator + "Movimientos_realizados.txt");
                 if (!logFile.exists()) { // Si no existe el archivo de log
-                    JOptionPane.showMessageDialog(deshacerFrame,
-                            "No se encontró el archivo con los movimientos realizados. No se puede deshacer la clasificación.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(deshacerFrame, "No se encontró el archivo con los movimientos realizados. No se puede deshacer la clasificación.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else { // Si existe el archivo de log
                     try {
-                        List<String> logMovimientos = new ArrayList<>();
-                        Scanner scanner = new Scanner(logFile);
-                        while (scanner.hasNextLine()) {
-                            logMovimientos.add(scanner.nextLine());
+                        List<String> logMovimientos = new ArrayList<>(); // Crear lista para almacenar los movimientos
+                        Scanner scanner = new Scanner(logFile); // Crear objeto Scanner para leer el archivo de log
+                        while (scanner.hasNextLine()) { 
+                            logMovimientos.add(scanner.nextLine()); // Agregar cada línea del archivo de log a la lista
                         }
                         scanner.close();
                         DeshacerClasificacion deshacerClasificacion = new DeshacerClasificacion(logMovimientos);
